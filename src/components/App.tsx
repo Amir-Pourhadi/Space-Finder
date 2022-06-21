@@ -1,11 +1,14 @@
 import { User } from "models/Models";
 import React from "react";
+import AuthService from "services/AuthService";
 
 interface AppState {
   user: User | undefined;
 }
 
 export default class App extends React.Component<{}, AppState> {
+  private authService: AuthService = new AuthService();
+
   render(): React.ReactNode {
     return <div>Hello World!</div>;
   }
