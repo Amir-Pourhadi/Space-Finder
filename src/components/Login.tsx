@@ -4,6 +4,7 @@ import AuthService from "services/AuthService";
 
 interface LoginProps {
   authService: AuthService;
+  setUser: (user: User) => void;
 }
 
 interface LoginState {
@@ -38,6 +39,7 @@ export default class Login extends React.Component<LoginProps, LoginState> {
     this.setState({ loginAttempted: true });
     const result: User | undefined = await this.props.authService.login(this.state.userName, this.state.password);
     this.setState({ loginSuccessful: Boolean(result) });
+    result && this.props.setUser(result);
   }
 
   private showMessage(): string | undefined {
