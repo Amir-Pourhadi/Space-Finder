@@ -35,7 +35,16 @@ export default class Login extends React.Component<LoginProps, LoginState> {
 
   private async handleSubmit(event: SyntheticEvent): Promise<void> {
     event.preventDefault();
+    this.setState({ loginAttempted: true });
     const result: User | undefined = await this.props.authService.login(this.state.userName, this.state.password);
+    this.setState({ loginSuccessful: Boolean(result) });
+  }
+
+  private showMessage(): string | undefined {
+    if (this.state.loginAttempted) {
+      if (this.state.loginSuccessful) return "Login Successful";
+      else return "Login Failed";
+    }
   }
 
   render(): React.ReactNode {
@@ -61,6 +70,7 @@ export default class Login extends React.Component<LoginProps, LoginState> {
             <br />
             <input type="submit" value="login" />
           </form>
+          <label>{this.showMessage()}</label>
         </div>
       </>
     );
