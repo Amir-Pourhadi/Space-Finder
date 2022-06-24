@@ -7,7 +7,7 @@ export default class AuthService {
     } else return undefined;
   }
 
-  public async getUserAttributes(user: User): Promise<UserAttribute[]> {
+  public async getUserAttributes(): Promise<UserAttribute[]> {
     return [
       { name: "Description", value: "Best user ever!" },
       { name: "Job", value: "Engineer" },
