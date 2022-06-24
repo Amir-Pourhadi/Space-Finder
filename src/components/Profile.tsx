@@ -13,12 +13,38 @@ interface ProfileProps {
 }
 
 export default class Profile extends React.Component<ProfileProps, ProfileState> {
+  state: Readonly<ProfileState> = {
+    userAttributes: [],
+  };
+
+  async componentDidMount(): Promise<void> {
+    if (this.props.user) {
+      const userAttributes: UserAttribute[] = await this.props.authService.getUserAttributes(this.props.user);
+      this.setState({ userAttributes });
+    }
+  }
+
   render(): React.ReactNode {
     return (
       <>
         <div>Welcome to the Profile Page!</div>
         {this.props.user ? (
-          <h3>Hello {this.props.user.userName}</h3>
+          <React.Fragment>
+            <h3>Hello {this.props.user.userName}</h3>
+            <p>Here are your attributes: </p>
+            <table>
+              <tbody>
+                {this.state.userAttributes.map(
+                  (userAttribute: UserAttribute): React.ReactNode => (
+                    <tr>
+                      <td>{userAttribute.name}</td>
+                      <td>{userAttribute.value}</td>
+                    </tr>
+                  )
+                )}
+              </tbody>
+            </table>
+          </React.Fragment>
         ) : (
           <div>
             Please <Link to="/login">Login</Link>
