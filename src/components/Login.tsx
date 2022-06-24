@@ -1,5 +1,6 @@
 import { User } from "models/Models";
 import React, { ChangeEvent, FormEvent, SyntheticEvent } from "react";
+import { Navigate } from "react-router-dom";
 import AuthService from "services/AuthService";
 
 interface LoginProps {
@@ -38,8 +39,10 @@ export default class Login extends React.Component<LoginProps, LoginState> {
     event.preventDefault();
     this.setState({ loginAttempted: true });
     const result: User | undefined = await this.props.authService.login(this.state.userName, this.state.password);
-    this.setState({ loginSuccessful: Boolean(result) });
-    result && this.props.setUser(result);
+    if (result) {
+      this.setState({ loginSuccessful: true });
+      this.props.setUser(result);
+    } else this.setState({ loginSuccessful: false });
   }
 
   private showMessage(): string | undefined {
@@ -51,7 +54,8 @@ export default class Login extends React.Component<LoginProps, LoginState> {
 
   render(): React.ReactNode {
     return (
-      <>
+      <React.Fragment>
+        {this.state.loginSuccessful && <Navigate to="/profile" replace={true} />}
         <div>
           <h2>Please Login! (user:1234)</h2>
           <br />
@@ -74,7 +78,7 @@ export default class Login extends React.Component<LoginProps, LoginState> {
           </form>
           <label>{this.showMessage()}</label>
         </div>
-      </>
+      </React.Fragment>
     );
   }
 }
