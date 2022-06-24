@@ -1,7 +1,7 @@
-import { Space } from "models/Models";
+import { SpaceInterface } from "models/Models";
 
 export default class DataService {
-  public async getSpaces(): Promise<Space[]> {
+  public async getSpaces(): Promise<SpaceInterface[]> {
     return [
       { id: "123", name: "Best Location", location: "Paris" },
       { id: "124", name: "Best Location", location: "London" },
