@@ -10,6 +10,7 @@ export default class Navbar extends React.Component<{ user: User | undefined }> 
           <div>
             <Link to="/">Home</Link>
             <Link to="/profile">Profile</Link>
+            <Link to="/spaces">Spaces</Link>
           </div>
           <h1>Website</h1>
           {this.props.user ? <Link to="/logout">{this.props.user.userName}</Link> : <Link to="login">Login</Link>}
