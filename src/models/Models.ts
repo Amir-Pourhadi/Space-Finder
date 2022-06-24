@@ -8,7 +8,7 @@ export interface UserAttribute {
   value: string;
 }
 
-export interface Space {
+export interface SpaceInterface {
   id: string;
   name: string;
   location: string;
