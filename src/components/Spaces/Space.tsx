@@ -1,7 +1,7 @@
 import genericImage from "assets/generic-image.jpg";
 import React from "react";
 
-interface SpacesProps {
+interface SpaceProps {
   id: string;
   name: string;
   location: string;
@@ -9,7 +9,7 @@ interface SpacesProps {
   reserveSpace: (id: string) => void;
 }
 
-export default class Spaces extends React.Component<SpacesProps> {
+export default class Space extends React.Component<SpaceProps> {
   render(): React.ReactNode {
     return (
       <div>
