@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
     "baseUrl": "src",
     "paths": {
       "components/*": ["components/*"],
       "services/*": ["services/*"],
-      "utils/*": ["utils/*"]
+      "utils/*": ["utils/*"],
+      "assets/*": ["assets/*"]
     },
     "allowJs": true,
     "skipLibCheck": true,
@@ -22,5 +23,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src"]
+  "include": ["src/**/*", "index.d.ts"],
+  "exclude": ["node_modules"]
 }
