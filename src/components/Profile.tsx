@@ -35,8 +35,8 @@ export default class Profile extends React.Component<ProfileProps, ProfileState>
             <table>
               <tbody>
                 {this.state.userAttributes.map(
-                  (userAttribute: UserAttribute): React.ReactNode => (
-                    <tr>
+                  (userAttribute: UserAttribute, index: number): React.ReactNode => (
+                    <tr key={index}>
                       <td>{userAttribute.name}</td>
                       <td>{userAttribute.value}</td>
                     </tr>
