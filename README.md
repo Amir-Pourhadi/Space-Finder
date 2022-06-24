@@ -1,3 +1,21 @@
+<div align="center">
+
+[![wakatime](https://wakatime.com/badge/github/Amir-Pourhadi/Space-Finder.svg)](https://wakatime.com/badge/github/Amir-Pourhadi/Space-Finder)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Amir-Pourhadi_Space-Finder&metric=ncloc)](https://sonarcloud.io/dashboard?id=Amir-Pourhadi_Space-Finder)
+[![CodeFactor](https://www.codefactor.io/repository/github/amir-pourhadi/Space-Finder/badge)](https://www.codefactor.io/repository/github/amir-pourhadi/Space-Finder)  
+ [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Amir-Pourhadi_Space-Finder&metric=alert_status)](https://sonarcloud.io/dashboard?id=Amir-Pourhadi_Space-Finder)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Amir-Pourhadi_Space-Finder&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=Amir-Pourhadi_Space-Finder)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Amir-Pourhadi_Space-Finder&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=Amir-Pourhadi_Space-Finder)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Amir-Pourhadi_Space-Finder&metric=security_rating)](https://sonarcloud.io/dashboard?id=Amir-Pourhadi_Space-Finder)
+
+</div>
+
+# Learn Chrome Extensions
+
+Practice React Class Components with TypeScript!
+
+---
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
