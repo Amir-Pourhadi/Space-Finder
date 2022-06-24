@@ -21,7 +21,6 @@ export default class App extends React.Component<{}, { user: User | undefined }>
   private authService: AuthService = new AuthService();
   private setUser(user: User): void {
     this.setState({ user });
-    console.log("setting the user" + user);
   }
 
   render(): React.ReactNode {
