@@ -7,8 +7,11 @@ export default class Navbar extends React.Component<{ user: User | undefined }> 
     return (
       <>
         <nav>
-          <Link to="/">Home</Link>
-          <Link to="/profile">Profile</Link>
+          <div>
+            <Link to="/">Home</Link>
+            <Link to="/profile">Profile</Link>
+          </div>
+          <h1>Website</h1>
           {this.props.user ? <Link to="/logout">{this.props.user.userName}</Link> : <Link to="login">Login</Link>}
         </nav>
       </>

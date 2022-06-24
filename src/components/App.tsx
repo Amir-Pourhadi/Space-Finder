@@ -1,7 +1,9 @@
+import "components/App.css";
 import Home from "components/Home";
 import Login from "components/Login";
 import Navbar from "components/Navbar";
 import Profile from "components/Profile";
+
 import { User } from "models/Models";
 import React from "react";
 import { Route, Routes } from "react-router-dom";
