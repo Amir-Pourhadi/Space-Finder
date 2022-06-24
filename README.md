@@ -10,7 +10,7 @@
 
 </div>
 
-# Learn Chrome Extensions
+# Space Finder
 
 Practice React Class Components with TypeScript!
 
