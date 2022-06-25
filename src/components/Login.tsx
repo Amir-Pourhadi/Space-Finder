@@ -74,7 +74,7 @@ export default class Login extends React.Component<LoginProps, LoginState> {
               onChange={(e: ChangeEvent<HTMLInputElement>): void => this.setPassword(e)}
             />
             <br />
-            <input type="submit" value="login" />
+            <input type="submit" value="Login" />
           </form>
           <label>{this.showMessage()}</label>
         </div>
