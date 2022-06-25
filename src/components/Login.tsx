@@ -57,7 +57,7 @@ export default class Login extends React.Component<LoginProps, LoginState> {
       <React.Fragment>
         {this.state.loginSuccessful && <Navigate to="/profile" replace={true} />}
         <div>
-          <h2>Please Login! (user:1234)</h2>
+          <h2>Please Login</h2>
           <br />
           <form onSubmit={(e: FormEvent<HTMLFormElement>): Promise<void> => this.handleSubmit(e)}>
             <input
