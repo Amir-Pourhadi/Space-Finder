@@ -19,7 +19,7 @@ export default class Profile extends React.Component<ProfileProps, ProfileState>
 
   async componentDidMount(): Promise<void> {
     if (this.props.user) {
-      const userAttributes: UserAttribute[] = await this.props.authService.getUserAttributes(this.props.user);
+      const userAttributes: UserAttribute[] = await this.props.authService.getUserAttributes();
       this.setState({ userAttributes });
     }
   }
