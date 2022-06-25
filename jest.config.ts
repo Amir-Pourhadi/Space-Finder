@@ -9,6 +9,12 @@ const config: Config.InitialOptions = {
   testEnvironment: "jsdom",
   collectCoverage: true,
   collectCoverageFrom: ["src/**/*.{ts,tsx}"],
+  moduleNameMapper: {
+    "^components/(.*)$": ["<rootDir>/src/components/$1"],
+    "^services/(.*)$": ["<rootDir>/src/services/$1"],
+    "^utils/(.*)$": ["<rootDir>/src/utils/$1"],
+    "^assets/(.*)$": ["<rootDir>/src/assets/$1"],
+  },
 };
 
 export default config;
