@@ -1,4 +1,5 @@
 import React from "react";
+import "./ConfirmModal.css";
 
 interface ConfirmModalProps {
   visible: boolean;
