@@ -23,6 +23,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src/**/*", "index.d.ts"],
+  "include": ["src/**/*", "test/**/*", "index.d.ts"],
   "exclude": ["node_modules"]
 }
