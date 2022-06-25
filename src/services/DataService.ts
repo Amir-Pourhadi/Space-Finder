@@ -8,4 +8,8 @@ export default class DataService {
       { id: "125", name: "Best Location", location: "NewYork" },
     ];
   }
+
+  public async reserveSpace(spaceId: string): Promise<string | undefined> {
+    return spaceId === "124" ? "5555" : undefined;
+  }
 }
