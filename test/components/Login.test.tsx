@@ -1,12 +1,26 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import Login from "components/Login";
 
+type userInfo = { userName: string; password: string };
+
 describe("Login Component Test Suit", () => {
-  const authServiceMock = { login: jest.fn() };
-  const setUserMock = jest.fn();
+  const wrongInfo: userInfo = { userName: "UserName", password: "PassWord" };
+  const correctInfo: userInfo = { userName: "user", password: "1234" };
+
+  const mockLogin = jest.fn((userName: string, password: string) => {
+    if (userName === "user" && password === "1234") {
+      return { userName, email: "example@gmail.com" };
+    } else return undefined;
+  });
+  const MockAuthService = jest.fn().mockImplementation(() => ({ login: mockLogin }));
+
+  beforeEach(() => {
+    MockAuthService.mockClear();
+    mockLogin.mockClear();
+  });
 
   test("Heading Test", () => {
-    render(<Login authService={authServiceMock as any} setUser={setUserMock} />);
+    render(<Login authService={new MockAuthService()} setUser={jest.fn} />);
 
     const heading = screen.getByRole("heading");
     expect(heading).toBeInTheDocument();
@@ -14,18 +28,15 @@ describe("Login Component Test Suit", () => {
   });
 
   test("Form Test", () => {
-    render(<Login authService={authServiceMock as any} setUser={setUserMock} />);
+    render(<Login authService={new MockAuthService()} setUser={jest.fn} />);
 
     const userNameInput = screen.getByPlaceholderText(/username/i);
-    expect(userNameInput).toBeInTheDocument();
     expect(userNameInput).toHaveValue("");
 
     const passwordInput = screen.getByPlaceholderText(/password/i);
-    expect(passwordInput).toBeInTheDocument();
     expect(passwordInput).toHaveValue("");
 
     const loginBtn = screen.getByRole("button", { name: /login/i });
-    expect(loginBtn).toBeInTheDocument();
     expect(loginBtn).toHaveValue("Login");
 
     const failedLabel = screen.queryByText(/Login Failed/i);
@@ -33,5 +44,45 @@ describe("Login Component Test Suit", () => {
 
     const successLabel = screen.queryByText(/Login Successful/i);
     expect(successLabel).not.toBeInTheDocument();
+  });
+
+  test("Login with incorrect Info", () => {
+    const authService = new MockAuthService();
+    render(<Login authService={authService} setUser={jest.fn} />);
+
+    const userNameInput = screen.getByPlaceholderText(/username/i);
+    const passwordInput = screen.getByPlaceholderText(/password/i);
+    const loginBtn = screen.getByRole("button", { name: /login/i });
+
+    fireEvent.change(userNameInput, { target: { value: wrongInfo.userName } });
+    fireEvent.change(passwordInput, { target: { value: wrongInfo.password } });
+    fireEvent.click(loginBtn);
+
+    expect(authService.login).toBeCalledTimes(1);
+    expect(authService.login).toBeCalledWith(wrongInfo.userName, wrongInfo.password);
+    expect(authService.login).toReturnWith(undefined);
+
+    const failedLabel = screen.queryByText(/login failed/i);
+    expect(failedLabel).toBeInTheDocument();
+
+    const successLabel = screen.queryByText(/login successful/i);
+    expect(successLabel).not.toBeInTheDocument();
+  });
+
+  test("Login with correct Info", async () => {
+    const authService = new MockAuthService();
+    render(<Login authService={authService} setUser={jest.fn} />);
+
+    const userNameInput = screen.getByPlaceholderText(/username/i);
+    const passwordInput = screen.getByPlaceholderText(/password/i);
+    const loginBtn = screen.getByRole("button", { name: /login/i });
+
+    fireEvent.change(userNameInput, { target: { value: correctInfo.userName } });
+    fireEvent.change(passwordInput, { target: { value: correctInfo.password } });
+    fireEvent.click(loginBtn);
+
+    expect(authService.login).toBeCalledTimes(1);
+    expect(authService.login).toBeCalledWith(correctInfo.userName, correctInfo.password);
+    expect(authService.login).toReturnWith({ userName: correctInfo.userName, email: "example@gmail.com" });
   });
 });
