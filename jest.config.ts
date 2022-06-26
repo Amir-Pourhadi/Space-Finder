@@ -8,7 +8,7 @@ const config: Config.InitialOptions = {
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
   testEnvironment: "jsdom",
   collectCoverage: true,
-  collectCoverageFrom: ["src/**/*.{ts,tsx}"],
+  collectCoverageFrom: ["src/**/*.{ts,tsx}", "!src/services/*", "!src/index.tsx"],
   moduleNameMapper: {
     "^components/(.*)$": ["<rootDir>/src/components/$1"],
     "^services/(.*)$": ["<rootDir>/src/services/$1"],
