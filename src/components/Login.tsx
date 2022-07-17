@@ -76,7 +76,7 @@ export default class Login extends React.Component<LoginProps, LoginState> {
             <br />
             <input type="submit" value="Login" />
           </form>
-          <label>{this.showMessage()}</label>
+          <label data-testid="status-label">{this.showMessage()}</label>
         </div>
       </React.Fragment>
     );
