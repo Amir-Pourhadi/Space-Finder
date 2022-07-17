@@ -1,5 +1,6 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import Login from "components/Login";
+import { BrowserRouter } from "react-router-dom";
 
 type userInfo = { userName: string; password: string };
 
@@ -13,6 +14,18 @@ describe("Login Component Test Suit", () => {
     } else return undefined;
   });
   const MockAuthService = jest.fn().mockImplementation(() => ({ login: mockLogin }));
+
+  function fillForm(info: userInfo): void {
+    const { userName, password } = info;
+
+    const userNameInput = screen.getByPlaceholderText(/username/i);
+    const passwordInput = screen.getByPlaceholderText(/password/i);
+    const loginBtn = screen.getByRole("button", { name: /login/i });
+
+    fireEvent.change(userNameInput, { target: { value: userName } });
+    fireEvent.change(passwordInput, { target: { value: password } });
+    fireEvent.click(loginBtn);
+  }
 
   beforeEach(() => {
     MockAuthService.mockClear();
@@ -30,64 +43,37 @@ describe("Login Component Test Suit", () => {
   test("Form Test", () => {
     render(<Login authService={new MockAuthService()} setUser={jest.fn} />);
 
-    const userNameInput = screen.getByPlaceholderText(/username/i);
-    expect(userNameInput).toHaveValue("");
-
-    const passwordInput = screen.getByPlaceholderText(/password/i);
-    expect(passwordInput).toHaveValue("");
-
-    const loginBtn = screen.getByRole("button", { name: /login/i });
-    expect(loginBtn).toHaveValue("Login");
-
-    const failedLabel = screen.queryByText(/Login Failed/i);
-    expect(failedLabel).not.toBeInTheDocument();
-
-    const successLabel = screen.queryByText(/Login Successful/i);
-    expect(successLabel).not.toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/username/i)).toHaveValue("");
+    expect(screen.getByPlaceholderText(/password/i)).toHaveValue("");
+    expect(screen.getByRole("button", { name: /login/i })).toHaveValue("Login");
+    expect(screen.queryByText(/Login Failed/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Login Successful/i)).not.toBeInTheDocument();
   });
 
   test("Login with incorrect Info", async () => {
     const authService = new MockAuthService();
     render(<Login authService={authService} setUser={jest.fn} />);
 
-    const userNameInput = screen.getByPlaceholderText(/username/i);
-    const passwordInput = screen.getByPlaceholderText(/password/i);
-    const loginBtn = screen.getByRole("button", { name: /login/i });
-
-    fireEvent.change(userNameInput, { target: { value: wrongInfo.userName } });
-    fireEvent.change(passwordInput, { target: { value: wrongInfo.password } });
-    fireEvent.click(loginBtn);
+    fillForm(wrongInfo);
 
     expect(authService.login).toBeCalledTimes(1);
     expect(authService.login).toBeCalledWith(wrongInfo.userName, wrongInfo.password);
     expect(authService.login).toReturnWith(undefined);
-
-    const statusLabel = await waitFor(() => screen.findByTestId("status-label"));
-    expect(statusLabel).toBeInTheDocument();
-    expect(statusLabel).toHaveTextContent("Login Failed");
+    expect(await screen.findByText(/Login Failed/i)).toBeInTheDocument();
   });
 
   test("Login with correct Info", async () => {
     const authService = new MockAuthService();
-    render(<Login authService={authService} setUser={jest.fn} />);
+    render(<Login authService={authService} setUser={jest.fn} />, { wrapper: BrowserRouter });
 
-    const userNameInput = screen.getByPlaceholderText(/username/i);
-    const passwordInput = screen.getByPlaceholderText(/password/i);
-    const loginBtn = screen.getByRole("button", { name: /login/i });
-
-    fireEvent.change(userNameInput, { target: { value: correctInfo.userName } });
-    fireEvent.change(passwordInput, { target: { value: correctInfo.password } });
-    fireEvent.click(loginBtn);
+    act(() => {
+      fillForm(correctInfo);
+    });
 
     expect(authService.login).toBeCalledTimes(1);
     expect(authService.login).toBeCalledWith(correctInfo.userName, correctInfo.password);
     expect(authService.login).toReturnWith({ userName: correctInfo.userName, email: "example@gmail.com" });
 
-    const statusLabel = await waitFor(() => screen.findByTestId("status-label"));
-    expect(statusLabel).toBeInTheDocument();
-
-    // TODO: Fix the bug here and uncomment line 91!
-    // Bug: Here I faced a bug... States in Login Component didn't updated :(
-    // expect(statusLabel).toHaveTextContent("Login Successful");
+    // TODO: Also write tests for route navigation
   });
 });
