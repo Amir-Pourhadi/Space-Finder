@@ -1,5 +1,5 @@
 import { User } from "models/Models";
-import React, { ChangeEvent, FormEvent, SyntheticEvent } from "react";
+import React, { SyntheticEvent } from "react";
 import { Navigate } from "react-router-dom";
 import AuthService from "services/AuthService";
 
@@ -20,12 +20,13 @@ interface CustomEvent {
 }
 
 export default class Login extends React.Component<LoginProps, LoginState> {
-  state: Readonly<LoginState> = {
-    userName: "",
-    password: "",
-    loginAttempted: false,
-    loginSuccessful: false,
-  };
+  constructor(props: any) {
+    super(props);
+    this.state = { userName: "", password: "", loginAttempted: false, loginSuccessful: false };
+    this.setUserName = this.setUserName.bind(this);
+    this.setPassword = this.setPassword.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
   private setUserName(event: CustomEvent): void {
     this.setState({ userName: event.target.value });
@@ -37,46 +38,30 @@ export default class Login extends React.Component<LoginProps, LoginState> {
 
   private async handleSubmit(event: SyntheticEvent): Promise<void> {
     event.preventDefault();
-    this.setState({ loginAttempted: true });
     const result: User | undefined = await this.props.authService.login(this.state.userName, this.state.password);
     if (result) {
-      this.setState({ loginSuccessful: true });
+      this.setState({ loginAttempted: true, loginSuccessful: true });
       this.props.setUser(result);
-    } else this.setState({ loginSuccessful: false });
-  }
-
-  private showMessage(): string | undefined {
-    if (this.state.loginAttempted) {
-      if (this.state.loginSuccessful) return "Login Successful";
-      else return "Login Failed";
-    }
+    } else this.setState({ loginAttempted: true, loginSuccessful: false });
   }
 
   render(): React.ReactNode {
     return (
       <React.Fragment>
-        {this.state.loginSuccessful && <Navigate to="/profile" replace={true} />}
         <div>
           <h2>Please Login</h2>
           <br />
-          <form onSubmit={(e: FormEvent<HTMLFormElement>): Promise<void> => this.handleSubmit(e)}>
-            <input
-              type="text"
-              value={this.state.userName}
-              placeholder="UserName"
-              onChange={(e: ChangeEvent<HTMLInputElement>): void => this.setUserName(e)}
-            />
+          <form onSubmit={this.handleSubmit}>
+            <input type="text" value={this.state.userName} placeholder="UserName" onChange={this.setUserName} />
             <br />
-            <input
-              type="password"
-              value={this.state.password}
-              placeholder="Password"
-              onChange={(e: ChangeEvent<HTMLInputElement>): void => this.setPassword(e)}
-            />
+            <input type="password" value={this.state.password} placeholder="Password" onChange={this.setPassword} />
             <br />
             <input type="submit" value="Login" />
           </form>
-          <label data-testid="status-label">{this.showMessage()}</label>
+          <label data-testid="status-label">
+            {this.state.loginAttempted &&
+              (this.state.loginSuccessful ? <Navigate to="/profile" replace={true} /> : "Login Failed")}
+          </label>
         </div>
       </React.Fragment>
     );
