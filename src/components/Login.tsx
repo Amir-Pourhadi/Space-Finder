@@ -58,7 +58,7 @@ export default class Login extends React.Component<LoginProps, LoginState> {
             <br />
             <input type="submit" value="Login" />
           </form>
-          <label data-testid="status-label">
+          <label>
             {this.state.loginAttempted &&
               (this.state.loginSuccessful ? <Navigate to="/profile" replace={true} /> : "Login Failed")}
           </label>
