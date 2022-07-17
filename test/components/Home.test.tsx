@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import Home from "components/Home";
 
-describe("Login Component Test Suit", () => {
+describe("Home Component Test Suit", () => {
   test("Content Test", () => {
     render(<Home />);
 
