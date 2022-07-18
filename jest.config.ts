@@ -10,6 +10,7 @@ const config: Config.InitialOptions = {
   collectCoverage: true,
   collectCoverageFrom: ["src/**/*.{ts,tsx}", "!src/services/*", "!src/index.tsx"],
   moduleNameMapper: {
+    "\\.(jpg|css)$": ["<rootDir>/test/mockData/mockFile.ts"],
     "^components/(.*)$": ["<rootDir>/src/components/$1"],
     "^services/(.*)$": ["<rootDir>/src/services/$1"],
     "^utils/(.*)$": ["<rootDir>/src/utils/$1"],
