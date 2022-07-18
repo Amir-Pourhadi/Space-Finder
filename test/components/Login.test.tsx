@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import Login from "components/Login";
 import { UserCredential } from "models/Models";
-import { correctCredential, wrongCredential } from "../data/userData";
+import { correctCredential, wrongCredential } from "../mockData/userData";
 
 describe("Login Component Test Suit", () => {
   const mockLogin = jest.fn((userName: string, password: string) => {

@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import Navbar from "components/Navbar";
 import { BrowserRouter } from "react-router-dom";
-import { correctUserInfo } from "../data/userData";
+import { correctUserInfo } from "../mockData/userData";
 
 const developmentUrl = "http://localhost";
 
