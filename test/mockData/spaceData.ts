@@ -1,6 +1,6 @@
 import { SpaceInterface } from "models/Models";
 
-export const spaceWithPhoto: SpaceInterface = {
+export const mockSpace: SpaceInterface = {
   id: "1234",
   location: "Some Location",
   name: "Some Name",
