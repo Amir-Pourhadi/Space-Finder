@@ -3,6 +3,11 @@ export interface User {
   email: string;
 }
 
+export interface UserCredential {
+  userName: string;
+  password: string;
+}
+
 export interface UserAttribute {
   name: string;
   value: string;
