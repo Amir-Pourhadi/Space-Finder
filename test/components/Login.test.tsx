@@ -1,6 +1,5 @@
-import { act, fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import Login from "components/Login";
-import { BrowserRouter } from "react-router-dom";
 
 type userInfo = { userName: string; password: string };
 
@@ -64,11 +63,9 @@ describe("Login Component Test Suit", () => {
 
   test("Login with correct Info", async () => {
     const authService = new MockAuthService();
-    render(<Login authService={authService} setUser={jest.fn} />, { wrapper: BrowserRouter });
+    render(<Login authService={authService} setUser={jest.fn} />);
 
-    act(() => {
-      fillForm(correctInfo);
-    });
+    fillForm(correctInfo);
 
     expect(authService.login).toBeCalledTimes(1);
     expect(authService.login).toBeCalledWith(correctInfo.userName, correctInfo.password);
