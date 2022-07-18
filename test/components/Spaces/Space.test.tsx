@@ -1,19 +1,14 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import Space from "components/Spaces/Space";
-import { spaceWithPhoto } from "../../mockData/spaceData";
+import { mockSpace } from "../../mockData/spaceData";
 
 const developmentUrl = "http://localhost";
 
 describe("Space Component Test Suit", () => {
   const mockReserveSpace = jest.fn();
+  const { id, location, name, photoUrl } = mockSpace;
 
   describe("Space with photo", () => {
-    beforeEach(() => {
-      mockReserveSpace.mockClear();
-    });
-
-    const { id, location, name, photoUrl } = spaceWithPhoto;
-
     test("Show image correctly", () => {
       render(<Space id={id} location={location} name={name} photoUrl={photoUrl} reserveSpace={mockReserveSpace} />);
 
@@ -38,6 +33,16 @@ describe("Space Component Test Suit", () => {
 
       expect(mockReserveSpace).toBeCalledTimes(1);
       expect(mockReserveSpace).toBeCalledWith(id);
+    });
+  });
+  describe("Space without photo", () => {
+    test("Don't Show any image", () => {
+      render(<Space id={id} location={location} name={name} reserveSpace={mockReserveSpace} />);
+
+      const image: HTMLImageElement = screen.getByRole("img");
+      expect(image).toBeInTheDocument();
+      expect(image.src).toBeFalsy();
+      expect(image).toHaveAttribute("alt");
     });
   });
 });
