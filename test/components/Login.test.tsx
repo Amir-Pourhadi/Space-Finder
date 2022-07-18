@@ -1,20 +1,17 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import Login from "components/Login";
-
-type userInfo = { userName: string; password: string };
+import { UserCredential } from "models/Models";
+import { correctCredential, wrongCredential } from "../data/userData";
 
 describe("Login Component Test Suit", () => {
-  const wrongInfo: userInfo = { userName: "UserName", password: "PassWord" };
-  const correctInfo: userInfo = { userName: "user", password: "1234" };
-
   const mockLogin = jest.fn((userName: string, password: string) => {
-    if (userName === "user" && password === "1234") {
+    if (userName === correctCredential.userName && password === correctCredential.password) {
       return { userName, email: "example@gmail.com" };
     } else return undefined;
   });
   const MockAuthService = jest.fn().mockImplementation(() => ({ login: mockLogin }));
 
-  function fillForm(info: userInfo): void {
+  function fillForm(info: UserCredential): void {
     const { userName, password } = info;
 
     const userNameInput = screen.getByPlaceholderText(/username/i);
@@ -53,10 +50,10 @@ describe("Login Component Test Suit", () => {
     const authService = new MockAuthService();
     render(<Login authService={authService} setUser={jest.fn} />);
 
-    fillForm(wrongInfo);
+    fillForm(wrongCredential);
 
     expect(authService.login).toBeCalledTimes(1);
-    expect(authService.login).toBeCalledWith(wrongInfo.userName, wrongInfo.password);
+    expect(authService.login).toBeCalledWith(wrongCredential.userName, wrongCredential.password);
     expect(authService.login).toReturnWith(undefined);
     expect(await screen.findByText(/Login Failed/i)).toBeInTheDocument();
   });
@@ -65,11 +62,11 @@ describe("Login Component Test Suit", () => {
     const authService = new MockAuthService();
     render(<Login authService={authService} setUser={jest.fn} />);
 
-    fillForm(correctInfo);
+    fillForm(correctCredential);
 
     expect(authService.login).toBeCalledTimes(1);
-    expect(authService.login).toBeCalledWith(correctInfo.userName, correctInfo.password);
-    expect(authService.login).toReturnWith({ userName: correctInfo.userName, email: "example@gmail.com" });
+    expect(authService.login).toBeCalledWith(correctCredential.userName, correctCredential.password);
+    expect(authService.login).toReturnWith({ userName: correctCredential.userName, email: "example@gmail.com" });
 
     // TODO: Also write tests for route navigation
   });
